@@ -444,6 +444,34 @@ var htmlTemplate = `<!DOCTYPE html>
             margin: 15px 0;
         }
         
+        /* 返回顶部按钮样式 */
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 1000;
+        }
+        
+        #back-to-top:hover {
+            background-color: #0b7dda;
+            transform: scale(1.1);
+        }
+        
+        #back-to-top.show {
+            opacity: 1;
+        }
+        
         /* 响应式布局 */
         @media (max-width: 768px) {
             body {
@@ -597,12 +625,8 @@ var htmlTemplate = `<!DOCTYPE html>
         </div>
     </div>
     
-    <!-- 错误提示弹窗 -->
-    <div id="error-modal" style="display: none;">
-        <div class="modal-content">
-            <p class="error-message">上传HAR文件失败，请检查文件格式是否正确！</p>
-        </div>
-    </div>
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" onclick="scrollToTop()" title="返回顶部">↑</button>
     
     <script>
         // 显示加载遮罩层
@@ -851,6 +875,24 @@ var htmlTemplate = `<!DOCTYPE html>
                     }
                 }
             });
+        });
+        
+        // 滚动到顶部功能
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // 滚动事件监听，控制返回顶部按钮的显示和隐藏
+        window.addEventListener('scroll', function() {
+            const backToTopButton = document.getElementById('back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
         });
     </script>
 </body>
